@@ -74,3 +74,113 @@ Rol de apoyo administrativo.
 - Sin acceso completo a reportes financieros globales.
 
 La separación de roles busca mantener el control financiero centralizado sin limitar la operación diaria.
+
+---
+
+## 5. Flujo principal del negocio
+
+El sistema está diseñado para reflejar el flujo operativo real de la agencia, desde que se solicita un servicio hasta que se realiza el pago a la niñera. El flujo principal (happy path) es el siguiente:
+
+1. Un cliente solicita un servicio de niñera para una fecha y horario específicos.
+2. La administradora u operadora registra el servicio en el sistema.
+3. Se consulta la disponibilidad y el perfil de las niñeras para seleccionar una candidata.
+4. Se asigna una niñera al servicio y se establece la tarifa correspondiente.
+5. Se confirma el servicio con el cliente y la niñera a través de WhatsApp.
+6. El servicio se lleva a cabo en la fecha y horario acordados.
+7. Al finalizar el servicio, este se marca como completado en el sistema.
+8. Al final de la semana, se genera un corte semanal de pagos.
+9. Se realizan las transferencias a las niñeras y se registran como pagadas en el sistema.
+
+Este flujo representa el escenario ideal. El sistema también contempla excepciones como cancelaciones, cambios de horario o sustitución de niñeras, las cuales se registran para mantener la trazabilidad operativa.
+
+---
+
+## 6. Entidades del sistema (modelo conceptual)
+
+A continuación se describen las entidades principales del sistema a nivel conceptual. Esta sección define **qué representa cada entidad**, sin entrar aún en detalles técnicos o de implementación.
+
+### Niñera
+Representa a cada persona que presta servicios de cuidado infantil a través de la agencia.
+
+Contiene información como:
+- Datos personales básicos.
+- Información de contacto.
+- Zonas donde puede trabajar.
+- Habilidades o características relevantes.
+- Estatus operativo (activa, en pausa, etc.).
+- Disponibilidad semanal de trabajo.
+
+---
+
+### Cliente
+Representa a las madres, padres o tutores que solicitan servicios de niñera.
+
+Contiene información como:
+- Nombre.
+- Teléfono de contacto.
+- Dirección o zona.
+- Notas relevantes para la atención del servicio.
+
+---
+
+### Servicio
+Representa un turno o evento de trabajo en el que una niñera es asignada a un cliente.
+
+Contiene información como:
+- Cliente solicitante.
+- Niñera asignada.
+- Fecha y horario del servicio.
+- Tipo de servicio (eventual, planta o nocturno).
+- Tarifa aplicada.
+- Estatus del servicio (solicitado, asignado, confirmado, completado, cancelado).
+- Notas operativas.
+
+El servicio es la entidad central del sistema, ya que conecta a niñeras, clientes y pagos.
+
+---
+
+### Disponibilidad
+Representa los horarios en los que una niñera puede trabajar de forma recurrente.
+
+Permite definir:
+- Días de la semana disponibles.
+- Rangos de horario por día.
+- Múltiples bloques de disponibilidad por día.
+
+La disponibilidad se utiliza como referencia para facilitar la asignación de servicios, pero no bloquea la operación de manera estricta.
+
+---
+
+### Pago a niñera
+Representa el registro de pagos realizados a una niñera por los servicios prestados durante un periodo determinado.
+
+Contiene información como:
+- Periodo de pago (corte semanal).
+- Monto total a pagar.
+- Estatus del pago (pendiente, pagado).
+- Fecha de pago.
+- Referencia de la transferencia.
+
+---
+
+### Cobro a cliente
+Representa el registro de los pagos realizados por los clientes a la agencia.
+
+Contiene información como:
+- Servicio asociado.
+- Monto cobrado.
+- Método de pago.
+- Estatus del cobro (pendiente, pagado).
+
+---
+
+### Tarifas
+Representa las tarifas base utilizadas por la agencia para calcular el costo de los servicios.
+
+Contiene información como:
+- Tipo de servicio.
+- Tarifa por hora para el cliente.
+- Tarifa por hora para la niñera.
+- Reglas generales de aplicación.
+
+Las tarifas pueden ser ajustadas manualmente por servicio en caso de excepciones.
