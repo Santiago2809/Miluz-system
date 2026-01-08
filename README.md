@@ -143,9 +143,13 @@ Contiene información como:
 - Niñera asignada.
 - Fecha y horario del servicio.
 - Tipo de servicio (eventual, planta o nocturno).
-- Tarifa aplicada.
 - Estatus del servicio (solicitado, asignado, confirmado, completado, cancelado).
 - Notas operativas.
+
+Además, cada servicio almacena el **acuerdo económico específico** de ese caso:
+- Tarifa cobrada al cliente (por hora o monto acordado).
+- Tarifa pagada a la niñera (por hora o monto acordado).
+- Motivo opcional de ajuste (ej. distancia, urgencia, poca disponibilidad).
 
 El servicio es la entidad central del sistema, ya que conecta a niñeras, clientes y pagos.
 
@@ -173,6 +177,8 @@ Contiene información como:
 - Fecha de pago.
 - Referencia de la transferencia.
 
+El monto del pago se calcula a partir de los **servicios completados**, considerando la **tarifa acordada en cada servicio**, ya que el pago por hora puede variar según condiciones específicas.
+
 ---
 
 ### Cobro a cliente
@@ -187,15 +193,15 @@ Contiene información como:
 ---
 
 ### Tarifas
-Representa las tarifas base utilizadas por la agencia para calcular el costo de los servicios.
+Representa las tarifas base utilizadas por la agencia como referencia para calcular el costo de los servicios.
 
 Contiene información como:
 - Tipo de servicio.
-- Tarifa por hora para el cliente.
-- Tarifa por hora para la niñera.
+- Tarifa base por hora para el cliente.
+- Tarifa base por hora para la niñera.
 - Reglas generales de aplicación.
 
-Las tarifas pueden ser ajustadas manualmente por servicio en caso de excepciones.
+Las tarifas base se utilizan para autocompletar valores al registrar un servicio, pero cada servicio puede tener **tarifas específicas acordadas**, tanto para el cobro al cliente como para el pago a la niñera.
 
 ---
 
@@ -224,10 +230,13 @@ Las siguientes reglas definen el comportamiento esperado del sistema y reflejan 
 - La disponibilidad puede ser modificada sin afectar servicios ya registrados.
 
 ### Tarifas
-- Existen tarifas base según el tipo de servicio.
-- Las tarifas base se utilizan para autocompletar el costo del servicio.
-- Las tarifas pueden ser ajustadas manualmente por servicio en caso de excepciones.
-- El monto pagado a la niñera puede ser distinto al monto cobrado al cliente.
+- Existen tarifas base según el tipo de servicio (referencia para autocompletar).
+- El cobro al cliente y el pago a la niñera pueden variar por servicio.
+- El sistema debe permitir sobrescribir (override) la tarifa base en un servicio específico.
+- Cuando se sobrescribe una tarifa en un servicio, debe poder registrarse un motivo opcional (ej. distancia, urgencia, poca disponibilidad).
+- El sistema debe almacenar en cada servicio el acuerdo final:
+  - tarifa cobrada al cliente
+  - tarifa pagada a la niñera
 
 ### Pagos a niñeras
 - Los pagos a niñeras se realizan de forma semanal.
@@ -235,6 +244,9 @@ Las siguientes reglas definen el comportamiento esperado del sistema y reflejan 
 - Un servicio solo puede pertenecer a un corte semanal.
 - Un pago marcado como realizado no debe modificarse sin autorización administrativa.
 - Los pagos se realizan mediante transferencia bancaria.
+- El corte semanal debe calcularse usando la **tarifa pagada a la niñera registrada en cada servicio**, no la tarifa base ni una tarifa “actual” de la niñera.
+- Si un servicio ya fue incluido en un corte marcado como pagado, sus montos no deben cambiar sin un ajuste administrativo explícito.
+
 
 ### Cobros a clientes
 - Los cobros a clientes pueden realizarse antes o después del servicio.
@@ -276,3 +288,8 @@ El sistema debe contemplar y permitir el manejo de situaciones excepcionales que
 - Un servicio puede registrarse con información incorrecta.
 - El sistema debe permitir correcciones manteniendo coherencia operativa.
 - Las notas internas deben facilitar la explicación de ajustes o cambios realizados.
+
+### Tarifas especiales por servicio
+- Puede negociarse un pago diferente a la niñera para un servicio específico (ej. “si vas a este servicio te lo pago en 100”), por razones como distancia, urgencia o poca disponibilidad.
+- El sistema debe permitir registrar la tarifa especial y, opcionalmente, el motivo del ajuste.
+- El corte semanal debe reflejar el pago acordado para ese servicio.
