@@ -1,5 +1,19 @@
 # Miluz Management System (MVP)
 
+## Índice
+- [1. Contexto del negocio](#1-contexto-del-negocio)
+- [2. Objetivo del sistema](#2-objetivo-del-sistema)
+- [3. Alcance del MVP](#3-alcance-del-mvp)
+- [4. Roles del sistema](#4-roles-del-sistema)
+- [5. Flujo principal del negocio](#5-flujo-principal-del-negocio)
+- [6. Entidades del sistema (modelo conceptual)](#6-entidades-del-sistema-modelo-conceptual)
+- [7. Reglas de negocio](#7-reglas-de-negocio)
+- [8. Casos borde (edge cases)](#8-casos-borde-edge-cases)
+
+---
+
+# Miluz Management System (MVP)
+
 ## 1. Contexto del negocio
 
 Actualmente, la agencia de niñeras opera principalmente a través de WhatsApp como medio para coordinar servicios, comunicarse con niñeras y clientes, y llevar el control operativo del negocio. Aunque este enfoque ha funcionado hasta ahora, presenta varios problemas conforme el volumen de trabajo aumenta.
