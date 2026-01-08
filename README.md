@@ -12,8 +12,6 @@
 
 ---
 
-# Miluz Management System (MVP)
-
 ## 1. Contexto del negocio
 
 Actualmente, la agencia de niñeras opera principalmente a través de WhatsApp como medio para coordinar servicios, comunicarse con niñeras y clientes, y llevar el control operativo del negocio. Aunque este enfoque ha funcionado hasta ahora, presenta varios problemas conforme el volumen de trabajo aumenta.
